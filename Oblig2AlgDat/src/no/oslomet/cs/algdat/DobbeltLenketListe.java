@@ -45,11 +45,32 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int endringer;         // antall endringer i listen
 
     public DobbeltLenketListe() {
-        throw new NotImplementedException();
+//        throw new NotImplementedException();
     }
 
     public DobbeltLenketListe(T[] a) {
-        throw new NotImplementedException();
+        if(a == null) throw new NullPointerException("Tabellen a er null!"); //FIXME vet ikke om a == null funker må sjekkes med tester
+        else if (a.length == 0) return;
+
+        int count = 0;
+        while(count < a.length && a[count] == null){
+            count++;
+        }
+        if(count == a.length){
+            hode = null;
+            hale = null;
+            return;
+        }
+
+        hode = new Node(a[count], null, null);
+        Node current = hode;
+        for(int i = count+1; i < a.length; i++){
+            if(a[i] != null) {
+                current.neste = new Node(a[i], current, null);
+                current = current.neste;
+            }
+        }
+        hale = current;
     }
 
     public Liste<T> subliste(int fra, int til){
@@ -58,12 +79,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int antall() {
-        throw new NotImplementedException();
+        Node current = hode;
+        int antall = 0;
+        while(current != null){
+            current = current.neste;
+            antall++;
+        }
+        this.antall = antall;
+        return antall;
     }
 
     @Override
     public boolean tom() {
-        throw new NotImplementedException();
+        if(antall() == 0) return true;
+        else return false;
     }
 
     @Override
