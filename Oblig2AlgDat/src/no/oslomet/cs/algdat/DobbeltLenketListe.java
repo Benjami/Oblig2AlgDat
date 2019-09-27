@@ -45,7 +45,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int endringer;         // antall endringer i listen
 
     public DobbeltLenketListe() {
-//        throw new NotImplementedException();
+        antall = 0;
+        endringer = 0;
     }
 
     public DobbeltLenketListe(T[] a) {
@@ -71,6 +72,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             }
         }
         hale = current;
+        antall();
+        endringer = 0;
     }
 
     public Liste<T> subliste(int fra, int til){
@@ -97,7 +100,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean leggInn(T verdi) {
-        throw new NotImplementedException();
+        Objects.requireNonNull(verdi);
+        this.antall++;
+        this.endringer++;//        throw new NotImplementedException();
+        if(hode == null){
+            hode = new Node<>(verdi,null,null);
+            hale = new Node<>(verdi,null,null);
+            return true;
+        }
+        hale.neste = new Node(verdi,hale,null);
+        hale = hale.neste;
+        if(hode.neste == null) hode.neste = hale;
+        return true;
     }
 
     @Override
