@@ -82,9 +82,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
 
     public boolean fratilKontroll(int fra, int til){ //FIXME Må kanskje endres virker som han beskriver en velig spesefik methode i oppgaven, men jeg fant den ikke
-        indeksKontroll(fra , false);
-        indeksKontroll(til, false);
-        if(fra > til) throw new IndexOutOfBoundsException("Fra kan ikke være støre en til");
+        indeksKontroll(fra , true);
+        indeksKontroll(til, true);
+        if(fra > til) throw new IllegalArgumentException("Fra kan ikke være støre en til");
         return true;
     }
 
