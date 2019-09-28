@@ -53,7 +53,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public DobbeltLenketListe(T[] a) {
         antall = 0;
         endringer = 0;
-        if(a == null) throw new NullPointerException("Tabellen a er null!"); //FIXME vet ikke om a == null funker må sjekkes med tester
+        if(a == null) throw new NullPointerException("Tabellen a er null!");
         else if (a.length == 0) return;
 
         int count = 0;
@@ -80,8 +80,26 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         endringer = 0;
     }
 
-    public Liste<T> subliste(int fra, int til){
-        throw new NotImplementedException();
+
+    public boolean fratilKontroll(int fra, int til){ //FIXME Må kanskje endres virker som han beskriver en velig spesefik methode i oppgaven, men jeg fant den ikke
+        indeksKontroll(fra , false);
+        indeksKontroll(til, false);
+        if(fra > til) throw new IndexOutOfBoundsException("Fra kan ikke være støre en til");
+        return true;
+    }
+
+    public Liste<T> subliste(int fra, int til) {
+        fratilKontroll(fra,til);
+        Object[] array = new Object[til-fra];
+        int j = 0;
+        Node current = finnNode(fra);
+
+        for(int i = fra; i < til; i++){ //FIXME kan hende til skal være med
+            array[j++] = current.verdi;
+            current = current.neste;
+        }
+
+        return new DobbeltLenketListe<T>((T[])array);
     }
 
     @Override
