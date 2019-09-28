@@ -94,12 +94,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         int j = 0;
         Node current = finnNode(fra);
 
-        for(int i = fra; i < til; i++){ //FIXME kan hende til skal være med
+        for(int i = fra; i < til; i++){
             array[j++] = current.verdi;
             current = current.neste;
         }
 
-        return new DobbeltLenketListe<T>((T[])array);
+        return new DobbeltLenketListe<T>((T[])array); //FIXME constructor er kanskje ikke lov her
     }
 
     @Override
