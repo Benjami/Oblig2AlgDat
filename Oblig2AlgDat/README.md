@@ -11,4 +11,4 @@ Oppgaven er levert av følgende studenter:
 I oppgaven har vi hatt følgende arbeidsfordeling:
 * Helge har hatt hovedansvar for oppgave 1, 2
 * Tor har hatt hovedansvar for oppgave
-* Benjamin har hatt hovedansvar for oppgave 
+* Benjamin har hatt hovedansvar for oppgave

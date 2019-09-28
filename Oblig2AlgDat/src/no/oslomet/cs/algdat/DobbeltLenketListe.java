@@ -45,11 +45,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int endringer;         // antall endringer i listen
 
     public DobbeltLenketListe() {
+        //FIXME ikke siker på om den tome konstruktøren skal være slik
         antall = 0;
         endringer = 0;
     }
 
     public DobbeltLenketListe(T[] a) {
+        antall = 0;
+        endringer = 0;
         if(a == null) throw new NullPointerException("Tabellen a er null!"); //FIXME vet ikke om a == null funker må sjekkes med tester
         else if (a.length == 0) return;
 
@@ -64,15 +67,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
         hode = new Node(a[count], null, null);
+        antall++;
         Node current = hode;
         for(int i = count+1; i < a.length; i++){
             if(a[i] != null) {
                 current.neste = new Node(a[i], current, null);
                 current = current.neste;
+                antall++;
             }
         }
         hale = current;
-        antall();
         endringer = 0;
     }
 
@@ -82,13 +86,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int antall() {
-        Node current = hode;
+        /*Node current = hode;
         int antall = 0;
         while(current != null){
             current = current.neste;
             antall++;
         }
         this.antall = antall;
+        return antall;*/
         return antall;
     }
 
@@ -110,7 +115,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
         hale.neste = new Node(verdi,hale,null);
         hale = hale.neste;
-        if(hode.neste == null) hode.neste = hale;
+        if(hode.neste == null){
+            hode.neste = hale;
+            hale.forrige = hode;
+        }
         return true;
     }
 
@@ -124,9 +132,29 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new NotImplementedException();
     }
 
+
+    public Node<T> finnNode(int index){
+        Node current;
+        if(index < antall/2 || index == 0){
+            current = hode;
+            for(int i = 0; i < index; i++){
+                current = current.neste;
+            }
+        }else{
+            current = hale;
+            for(int i = antall-1; i > index; i--){
+                current = current.forrige;
+            }
+        }
+
+        return  current;
+    }
+
     @Override
     public T hent(int indeks) {
-        throw new NotImplementedException();
+        indeksKontroll(indeks, false);
+        T t = finnNode(indeks).verdi;
+        return t;
     }
 
     @Override
@@ -136,7 +164,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        throw new NotImplementedException();
+        indeksKontroll(indeks, false);
+        if(nyverdi == null) throw new NullPointerException("Nyverdi kan ikke være null");
+        Node current = finnNode(indeks);
+        T gammelVerdi = (T)current.verdi;
+        current.verdi = nyverdi;
+        if(indeks == 0) hode = current;
+        if(indeks == antall-1) hale = current;
+        return gammelVerdi;
     }
 
     @Override

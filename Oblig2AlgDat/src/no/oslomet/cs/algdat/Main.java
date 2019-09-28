@@ -1,15 +1,20 @@
 package no.oslomet.cs.algdat;
 
+import org.omg.CORBA.INTERNAL;
+
 public class Main {
 
     public static void main (String [] args){
-        String[] s1 = {}, s2 = {"A"}, s3 = {null, "A", null, "B", null};
-        DobbeltLenketListe<String> l1 = new DobbeltLenketListe<>(s1);
-        DobbeltLenketListe<String> l2 = new DobbeltLenketListe<>(s2);
-        DobbeltLenketListe<String> l3 = new DobbeltLenketListe<>(s3);
-
-        System.out.println(l1.toString() + " " + l2.toString() + " " + l3.toString() + " " +
-                l1.omvendtString() + " " + l2. omvendtString() + " " + l3.omvendtString());
+        //String[] s1 = {}, s2 = {"A"}, s3 = {null, "A", null, "B", null};
+        DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>();
+        liste.leggInn(1);
+        liste.leggInn(2);
+        liste.leggInn(3);
+        liste.leggInn(4);
+        liste.oppdater(0,-1);
+        System.out.println(liste.omvendtString());
+        System.out.println(liste.hent(0));
+        System.out.println(liste.toString());
 
     }
 }
