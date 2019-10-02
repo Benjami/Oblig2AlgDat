@@ -142,7 +142,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        throw new NotImplementedException();
+        Objects.requireNonNull(verdi, "Verdien er her satt til NULL!!!!");
+        indeksKontroll(indeks,true); // true?
+
+        Node<T>nyV = new Node<>(verdi,null,null);
+        Node<T>nyIn =finnNode(indeks);
+        //TODO: ifs: Antall==0/index, nyIn.forrige ==null, osv
+
+        antall++;
     }
 
     @Override
@@ -202,7 +209,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
-        throw new NotImplementedException();
+        if (verdi == null) return false; //!=0
+
+
+        return false;
     }
 
     @Override
