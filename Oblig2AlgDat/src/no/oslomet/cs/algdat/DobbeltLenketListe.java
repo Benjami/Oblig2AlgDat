@@ -209,52 +209,70 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
-        if (verdi == null) {
+        if (verdi == null) { //returnerer false for null i stede for exception
             return false;
         }
         if (tom()){ //tom() = true når antall= 0
             return false;
         }
-
         Node<T> current = hode;
-        while (current!=null){
+        for(int i= 0; i<antall; i++){
+            if (current.verdi.equals(verdi)){
+                if (current == null){
+                    return false;
+                }
+                else if (current == hode){
+                    hode =hode.neste;
+                    hale = null;
+                }
+                else if (current==hale){
+                    hale = hale.forrige;
+                    hale.neste = null;
+                }
+                else{
+                    current.forrige.neste = current.neste;
+                    current.neste.forrige = current.forrige;
+                }
 
+                return true;
+            }
+
+            current = current.neste; //hoppe videre i loop så lenge verdien ikke er funnet
         }
 
-
-
-
-
-        return false;
+        antall--;
+        endringer++;
+        return false; //verdi ikke i listen
     }
 
     @Override
     public T fjern(int indeks) {
-       // indeksKontroll(indeks,false);
-        Node<T> utindex;
+        indeksKontroll(indeks,false);
+        Node<T> utIndex;
 
         //--index starten
         if (indeks == 0){ //index0 = hode
-            utindex = hode; //utverdi satt til hodet
+            utIndex = hode; // satt til hodet
             hode = hode.neste;
-            hale.forrige = null;
+            hode.forrige = null;
         }
         //--index slutten
-        if (indeks == antall-1){ // antall -1 = hale
-            utindex = hale; //utverdi satt til hale
+        else if (indeks == antall-1){ // antall -1 = hale
+            utIndex = hale; //satt til hale
             hale = hale.forrige;
             hale.neste = null;
         }
         //--index miden
         else {
-            Node<T> nodeIndeks = finnNode(indeks - 1); //indeks-1 finner noden 'p'
+            Node<T> nodeIndeks = finnNode(indeks - 1); //indeks-1 finner noden 'p' /slutten
 
-            utindex = nodeIndeks.neste; //utverdi satt til 'q'
+            utIndex = nodeIndeks.neste; //utverdi satt til 'q'
             nodeIndeks.neste = nodeIndeks.neste.neste; // 'q' satt til 'r'
             nodeIndeks.neste.forrige = nodeIndeks; //
         }
         antall--;
-        return utindex.verdi; // verdi av indeksen
+        endringer++;
+        return utIndex.verdi; // verdi av indeksen
     }
 
     @Override
