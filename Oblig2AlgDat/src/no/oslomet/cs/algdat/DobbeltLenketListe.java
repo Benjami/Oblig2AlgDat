@@ -217,7 +217,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
         Node<T> current = hode;
-        
+        while (current!=null){
+
+        }
+
 
 
 
@@ -227,7 +230,31 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T fjern(int indeks) {
-        throw new NotImplementedException();
+       // indeksKontroll(indeks,false);
+        Node<T> utindex;
+
+        //--index starten
+        if (indeks == 0){ //index0 = hode
+            utindex = hode; //utverdi satt til hodet
+            hode = hode.neste;
+            hale.forrige = null;
+        }
+        //--index slutten
+        if (indeks == antall-1){ // antall -1 = hale
+            utindex = hale; //utverdi satt til hale
+            hale = hale.forrige;
+            hale.neste = null;
+        }
+        //--index miden
+        else {
+            Node<T> nodeIndeks = finnNode(indeks - 1); //indeks-1 finner noden 'p'
+
+            utindex = nodeIndeks.neste; //utverdi satt til 'q'
+            nodeIndeks.neste = nodeIndeks.neste.neste; // 'q' satt til 'r'
+            nodeIndeks.neste.forrige = nodeIndeks; //
+        }
+        antall--;
+        return utindex.verdi; // verdi av indeksen
     }
 
     @Override
