@@ -1,6 +1,6 @@
 package no.oslomet.cs.algdat;
 
-import org.omg.CORBA.INTERNAL;
+        import org.omg.CORBA.INTERNAL;
 
 public class Main {
 
