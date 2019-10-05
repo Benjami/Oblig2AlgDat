@@ -237,7 +237,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 return true;
             }
 
-            current = current.neste; //hoppe videre i loop så lenge verdien ikke er funnet
+            current = current.neste; //endrer current 
         }
 
         antall--;
