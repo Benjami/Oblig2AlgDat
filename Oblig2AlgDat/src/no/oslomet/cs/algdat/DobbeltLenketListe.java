@@ -275,7 +275,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void nullstill() {
-        throw new NotImplementedException();
+        Node current = hode;
+        Node next = current.neste;
+
+        for(int i = 0; i < antall-1; i++){
+            current.neste = next.forrige = null;
+            current.verdi = null;
+            current = next;
+        }
+
+        hode = hale = null;
+        antall = 0;
+        endringer++;
     }
 
     @Override
@@ -331,7 +342,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         private int iteratorendringer;
 
         private DobbeltLenketListeIterator(){
-            throw new NotImplementedException();
+            denne = hode;
+            fjernOK = false;
+            iteratorendringer = endringer;
         }
 
         private DobbeltLenketListeIterator(int indeks){
@@ -340,7 +353,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public boolean hasNext(){
-            throw new NotImplementedException();
+            return denne != null;
         }
 
         @Override
