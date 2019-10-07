@@ -216,16 +216,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             return false;
         }
         Node<T> current = hode;
-        for(int i= 0; i<antall; i++){
+        while(current!=null){
             if (current.verdi.equals(verdi)){
-                if (current == null){
-                    return false;
+                if (antall == 1){
+                    hode = hale =null;
                 }
-                else if (current == hode){
+                else if (current.forrige == null){ // hode
                     hode =hode.neste;
-                    hale = null;
+                    hode.forrige = null;
                 }
-                else if (current==hale){
+                else if (current.neste==null){ //hale
                     hale = hale.forrige;
                     hale.neste = null;
                 }
@@ -233,15 +233,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                     current.forrige.neste = current.neste;
                     current.neste.forrige = current.forrige;
                 }
-
+                antall--;
+                endringer++;
                 return true;
             }
 
-            current = current.neste; //endrer current 
+            current = current.neste; //endrer current
         }
 
-        antall--;
-        endringer++;
         return false; //verdi ikke i listen
     }
 
@@ -262,13 +261,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             hale = hale.forrige;
             hale.neste = null;
         }
-        //--index miden
+        //
         else {
-            Node<T> nodeIndeks = finnNode(indeks - 1); //indeks-1 finner noden 'p' /slutten
-
-            utIndex = nodeIndeks.neste; //utverdi satt til 'q'
-            nodeIndeks.neste = nodeIndeks.neste.neste; // 'q' satt til 'r'
-            nodeIndeks.neste.forrige = nodeIndeks; //
+            utIndex = finnNode(indeks );
+            /*utIndex = nodeIndeks.neste; //utverdi satt til 'q'*/
+            utIndex.neste = utIndex.neste.neste; // 'q' satt til 'r'
+            utIndex.neste.forrige = utIndex; //
         }
         antall--;
         endringer++;
