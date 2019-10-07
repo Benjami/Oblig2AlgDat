@@ -252,8 +252,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         //--index starten
         if (indeks == 0){ //index0 = hode
             utIndex = hode; // satt til hodet
-            hode = hode.neste;
-            hode.forrige = null;
+            if (hode.forrige ==null && hode.neste ==null){
+                hode = null;
+                hale=null;
+            }
+            else {
+                hode = hode.neste;
+                hode.forrige = null;
+            }
         }
         //--index slutten
         else if (indeks == antall-1){ // antall -1 = hale
