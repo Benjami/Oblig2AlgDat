@@ -2,10 +2,13 @@ package no.oslomet.cs.algdat;
 
         import org.omg.CORBA.INTERNAL;
 
+        import static java.lang.System.out;
+
 public class Main {
 
     public static void main (String [] args){
         //String[] s1 = {}, s2 = {"A"}, s3 = {null, "A", null, "B", null};
+
         DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>();
         liste.leggInn(1);
         liste.leggInn(2);

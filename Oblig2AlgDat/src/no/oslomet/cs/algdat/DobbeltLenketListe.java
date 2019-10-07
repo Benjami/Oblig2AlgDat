@@ -9,12 +9,9 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
-import java.util.StringJoiner;
 
 import java.util.Iterator;
 import java.util.Objects;
-import java.util.function.Predicate;
-
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -385,7 +382,42 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public void remove(){
-            throw new NotImplementedException();
+            if(iteratorendringer != endringer){
+                throw new ConcurrentModificationException("Listen er endret");
+            }
+
+            if(!fjernOK){
+                throw new IllegalStateException("Ikke OK å fjerne");
+            }
+
+            fjernOK = false;
+
+            if(antall == 1){
+                hode = null;
+                hale = null;
+            }
+
+            else if(denne == null){
+                hale = hale.forrige;
+                hale.neste = null;
+            }
+
+            else if(denne.forrige == hode){
+                hode = hode.neste;
+                hode.forrige = null;
+            }
+            else{
+                Node next = denne;
+                Node prev = denne.forrige.forrige;
+
+                prev.neste = next;
+                next.forrige = prev;
+
+            }
+
+            antall--;
+            endringer++;
+            iteratorendringer++;
         }
 
     } // class DobbeltLenketListeIterator
