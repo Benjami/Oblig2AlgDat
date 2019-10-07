@@ -204,6 +204,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         current.verdi = nyverdi;
         if(indeks == 0) hode = current;
         if(indeks == antall-1) hale = current;
+        endringer++;
         return gammelVerdi;
     }
 
@@ -334,11 +335,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public Iterator<T> iterator() {
-        throw new NotImplementedException();
+        return new DobbeltLenketListeIterator();
     }
 
     public Iterator<T> iterator(int indeks) {
-        throw new NotImplementedException();
+        indeksKontroll(indeks, false);
+
+        return new DobbeltLenketListeIterator(indeks);
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T>
@@ -354,7 +357,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
         private DobbeltLenketListeIterator(int indeks){
-            throw new NotImplementedException();
+            denne = finnNode(indeks);
+            fjernOK = false;
+            iteratorendringer = endringer;
         }
 
         @Override
@@ -364,7 +369,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public T next(){
-            throw new NotImplementedException();
+            if(iteratorendringer != endringer){
+                throw new ConcurrentModificationException("Listen er endret");
+            }
+            if(!hasNext()){
+                throw new NoSuchElementException("Har ingen neste");
+            }
+
+            T currentValue = denne.verdi;
+            fjernOK = true;
+            denne = denne.neste;
+
+            return currentValue;
         }
 
         @Override
