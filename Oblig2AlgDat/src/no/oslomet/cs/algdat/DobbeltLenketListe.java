@@ -218,7 +218,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         Node<T> current = hode;
         while(current!=null){
             if (current.verdi.equals(verdi)){
-                if (antall == 1){
+                if (antall <= 1){
                     hode = hale =null;
                 }
                 else if (current.forrige == null){ // hode
@@ -265,8 +265,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         else {
             utIndex = finnNode(indeks );
             /*utIndex = nodeIndeks.neste; //utverdi satt til 'q'*/
-            utIndex.neste = utIndex.neste.neste; // 'q' satt til 'r'
-            utIndex.neste.forrige = utIndex; //
+            utIndex.forrige.neste = utIndex.neste; // 'q' satt til 'r'
+            utIndex.neste.forrige = utIndex.forrige; //
         }
         antall--;
         endringer++;
