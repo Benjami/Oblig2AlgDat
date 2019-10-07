@@ -125,7 +125,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public boolean leggInn(T verdi) {
         Objects.requireNonNull(verdi);
         this.antall++;
-        this.endringer++;//        throw new NotImplementedException();
+        this.endringer++;
         if(hode == null){
             hode = new Node<>(verdi,null,null);
             hale = new Node<>(verdi,null,null);
@@ -143,12 +143,33 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public void leggInn(int indeks, T verdi) {
         Objects.requireNonNull(verdi, "Verdien er her satt til NULL!!!!");
-        indeksKontroll(indeks,true); // true?
+        indeksKontroll(indeks,false);
 
-        Node<T>nyV = new Node<>(verdi,null,null);
-        Node<T>nyIn =finnNode(indeks);
-        //TODO: ifs: Antall==0/index, nyIn.forrige ==null, osv
+        // tom liste
+        if (indeks==0 && antall ==0 ){
+            hode = hale;
+            hale = new Node<>(verdi,null,null);
+        }
+        //legge inn fra starten
+        else if (indeks == 0){
+            hode = new Node<>(verdi, null, hode);
+            hode.neste.forrige = hode;
+        }
+        //legge til på slutten
+        else if(indeks ==antall){
+            hale = new Node <>(verdi, hale, null);;
+            hale.neste.forrige = hale;
+        }
+        //legger inn i midten
+        else {
+            Node<T> midten = hode;
 
+            for(int i=0; i<antall; i++){
+                midten = midten.neste;
+            }
+            midten = new Node(verdi, midten, midten.forrige);
+            midten.neste.forrige = midten.forrige.neste = midten;
+        }
         antall++;
     }
 
@@ -252,7 +273,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         //--index starten
         if (indeks == 0){ //index0 = hode
             utIndex = hode; // satt til hodet
-            if (hode.forrige ==null && hode.neste ==null){
+            if (hode.forrige ==null && hode.neste ==null){ // tester for om det kun er et element i lista
                 hode = null;
                 hale=null;
             }
