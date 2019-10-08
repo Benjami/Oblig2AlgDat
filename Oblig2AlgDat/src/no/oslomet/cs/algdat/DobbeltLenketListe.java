@@ -142,6 +142,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public void leggInn(int indeks, T verdi) {
         Objects.requireNonNull(verdi, "Verdien er her satt til NULL!!!!");
         indeksKontroll(indeks, true);
+        endringer++;
 
         // tom liste
         if (indeks==0 && antall ==0 ){
@@ -274,10 +275,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         //--index starten
         if (indeks == 0){ //index0 = hode
             utIndex = hode; // satt til hodet
-            if (hode.forrige ==null && hode.neste ==null){ // tester for om det kun er et element i lista
+            if (hode.forrige == null && hode.neste == null){ // tester for om det kun er et element i lista
                 hode = null;
-                hale=null;
+                hale = null;
             }
+
             else {
                 hode = hode.neste;
                 hode.forrige = null;
@@ -449,10 +451,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
         if(liste.antall() < 2) return;
 
-        for (int i = 0; i < liste.antall()-1; i++){
-            for (int j = 0; j < liste.antall()-1;j++){
-                if((c.compare(liste.hent(i),liste.hent(j))) < 0){
-
+        for(int j = 0; j < liste.antall(); j++) {
+            for (int i = 0; i < liste.antall() - 1; i++) {
+                if (c.compare(liste.hent(i), liste.hent(i + 1)) > 0) {
+                    T temp = liste.hent(i);
+                    liste.oppdater(i, liste.hent(i + 1));
+                    liste.oppdater(i + 1, temp);
                 }
             }
         }
