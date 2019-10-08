@@ -130,6 +130,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
         hale.neste = new Node(verdi,hale,null);
         hale = hale.neste;
+
         if(hode.neste == null){
             hode.neste = hale;
             hale.forrige = hode;
@@ -140,12 +141,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public void leggInn(int indeks, T verdi) {
         Objects.requireNonNull(verdi, "Verdien er her satt til NULL!!!!");
-        indeksKontroll(indeks,false);
+        indeksKontroll(indeks, true);
 
         // tom liste
         if (indeks==0 && antall ==0 ){
-            hode = hale;
-            hale = new Node<>(verdi,null,null);
+            hode = new Node<>(verdi,null,null);
+            hale = hode;
         }
         //legge inn fra starten
         else if (indeks == 0){
@@ -153,19 +154,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             hode.neste.forrige = hode;
         }
         //legge til på slutten
-        else if(indeks ==antall){
-            hale = new Node <>(verdi, hale, null);;
-            hale.neste.forrige = hale;
+        else if(indeks == antall){
+            hale = new Node <>(verdi, hale, null);
+            hale.forrige.neste = hale;
         }
         //legger inn i midten
         else {
             Node<T> midten = hode;
 
-            for(int i=0; i<antall; i++){
+            for(int i=0; i<indeks-1; i++){
                 midten = midten.neste;
             }
-            midten = new Node(verdi, midten, midten.forrige);
-            midten.neste.forrige = midten.forrige.neste = midten;
+            midten = new Node(verdi, midten, midten.neste);
+            midten.neste.forrige = midten;
+            midten.forrige.neste = midten;
         }
         antall++;
     }
