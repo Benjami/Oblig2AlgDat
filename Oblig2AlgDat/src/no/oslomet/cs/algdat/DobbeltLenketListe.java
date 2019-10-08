@@ -170,6 +170,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             midten.forrige.neste = midten;
         }
         antall++;
+        endringer++;
     }
 
     @Override
